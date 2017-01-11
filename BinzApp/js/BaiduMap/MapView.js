@@ -30,11 +30,11 @@ export default class MapView extends Component {
   * 初始化参数
   */
   static defaultProps = {
-    mapType: MapTypes.NORMAL,
-    zoom: 15,
+    mapType: MapTypes.OTHERS,
+    zoom: 19,
     center: {
-              'longitude': 121.667917,
-              'latitude': 31.149712
+              'longitude': 121.66596790837001,
+              'latitude': 31.149882885166999
             },
     maxAndMinZoom: [14, 21]
   }

@@ -1,0 +1,30 @@
+﻿[
+    {
+        "featureType": "all",
+        "elementType": "all",
+        "stylers": {
+            "color": "#eeeeee"
+        }
+    },
+    {
+        "featureType": "road",
+        "elementType": "all",
+        "stylers": {
+            "visibility": "off"
+        }
+    },
+    {
+        "featureType": "administrative",
+        "elementType": "all",
+        "stylers": {
+            "visibility": "off"
+        }
+    },
+    {
+        "featureType": "poi",
+        "elementType": "all",
+        "stylers": {
+            "visibility": "off"
+        }
+    }
+]
