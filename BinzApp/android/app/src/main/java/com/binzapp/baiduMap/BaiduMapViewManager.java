@@ -7,9 +7,7 @@ import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
-import com.baidu.mapapi.map.TileOverlayOptions;
 import com.baidu.mapapi.model.LatLng;
-import com.binzapp.baiduMap.tiles.BaiduOnlineTileProvider;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.uimanager.ThemedReactContext;
@@ -37,8 +35,7 @@ public class BaiduMapViewManager extends ViewGroupManager<MapView> {
     public MapView createViewInstance(ThemedReactContext context) {
         mReactContext = context;
         MapView mapView = new MapView(context);
-        // mapView.setCustomMapStylePath("/data/data/com.binzapp/files/custom_config");
-        this.setCustTileOverlay(mapView);
+        mapView.setCustomMapStylePath("custom_config");
         return mapView;
     }
 
@@ -109,10 +106,5 @@ public class BaiduMapViewManager extends ViewGroupManager<MapView> {
         }
     }
 
-    private void setCustTileOverlay(MapView mapView) {
-        TileOverlayOptions localTileOverlayOptions = new TileOverlayOptions();
-        localTileOverlayOptions.tileProvider(new BaiduOnlineTileProvider()).setMaxTileTmp(52428800);
-        mapView.getMap().addTileLayer(localTileOverlayOptions);
-    }
 
 }
