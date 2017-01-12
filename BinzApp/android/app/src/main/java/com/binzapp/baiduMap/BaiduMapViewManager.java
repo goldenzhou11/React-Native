@@ -7,7 +7,11 @@ import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.map.TileOverlayOptions;
+import com.baidu.mapapi.map.TileProvider;
+import com.baidu.mapapi.map.UrlTileProvider;
 import com.baidu.mapapi.model.LatLng;
+import com.binzapp.baiduMap.config.DefaultConfig;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.uimanager.ThemedReactContext;
@@ -23,6 +27,11 @@ public class BaiduMapViewManager extends ViewGroupManager<MapView> {
     private static final String REACT_CLASS = "RCTBaiduMapView";
     private ThemedReactContext mReactContext;
     private ReadableArray childrenPoints;
+    private int tileTmp = DefaultConfig.DEF_TILE_TMP;
+    private int maxLevel = (int) DefaultConfig.DEF_MAX_ZOOM;
+    private int minLevel = (int) DefaultConfig.DEF_MIN_ZOOM;
+    private String onlineUrl = "http://api0.map.bdimg.com/customimage/tile"
+            + "?&x={x}&y={y}&z={z}&udt=20150601&customid=light";
 
     public String getName() {
         return REACT_CLASS;
@@ -35,7 +44,6 @@ public class BaiduMapViewManager extends ViewGroupManager<MapView> {
     public MapView createViewInstance(ThemedReactContext context) {
         mReactContext = context;
         MapView mapView = new MapView(context);
-        mapView.setCustomMapStylePath("custom_config");
         return mapView;
     }
 
@@ -60,11 +68,14 @@ public class BaiduMapViewManager extends ViewGroupManager<MapView> {
      */
     @ReactProp(name = "zoom")
     public void setZoom(MapView mapView, float zoom) {
-        MapStatus mapStatus = new MapStatus.Builder().zoom(zoom).build();
+        float curZoom = DefaultConfig.DEF_ZOOM;
+        if (zoom != 0f) {
+            curZoom = zoom;
+        }
+        MapStatus mapStatus = new MapStatus.Builder().zoom(curZoom).build();
         MapStatusUpdate mapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mapStatus);
         mapView.getMap().setMapStatus(mapStatusUpdate);
     }
-
 
     /**
      * 设置地图最大以及最小缩放级别,地图支持的最大最小级别分别为[3-21]
@@ -75,8 +86,8 @@ public class BaiduMapViewManager extends ViewGroupManager<MapView> {
     @ReactProp(name = "maxAndMinZoom")
     public void setMaxAndMinZoom(MapView mapView, ReadableArray maxAndMinZoom) {
         // 默认地图缩放最大，最小等级
-        float minLevel = 3f;
-        float maxLevel = 21f;
+        float minLevel = DefaultConfig.DEF_MIN_ZOOM;
+        float maxLevel = DefaultConfig.DEF_MAX_ZOOM;
         if (!maxAndMinZoom.isNull(0)) {
             minLevel = maxAndMinZoom.getInt(0);
         }
@@ -94,17 +105,65 @@ public class BaiduMapViewManager extends ViewGroupManager<MapView> {
      */
     @ReactProp(name = "center")
     public void setCenter(MapView mapView, ReadableMap position) {
+        double latitude = DefaultConfig.DEF_LAT;
+        double longitude = DefaultConfig.DEF_LNG;
         if (position != null) {
-            double latitude = position.getDouble("latitude");
-            double longitude = position.getDouble("longitude");
-            LatLng point = new LatLng(latitude, longitude);
-            MapStatus mapStatus = new MapStatus.Builder()
-                    .target(point)
-                    .build();
-            MapStatusUpdate mapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mapStatus);
-            mapView.getMap().setMapStatus(mapStatusUpdate);
+            latitude = position.getDouble("latitude");
+            longitude = position.getDouble("longitude");
         }
+        LatLng point = new LatLng(latitude, longitude);
+        MapStatus mapStatus = new MapStatus.Builder()
+                .target(point)
+                .build();
+        MapStatusUpdate mapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mapStatus);
+        mapView.getMap().setMapStatus(mapStatusUpdate);
     }
 
+    /**
+     * 自定义瓦片图层
+     * @param mapView
+     * @param onlineTileOverlay
+     */
+    @ReactProp(name = "onlineTileOverlay")
+    public void setOnlineTileOverlay (MapView mapView, ReadableMap onlineTileOverlay) {
+        if (onlineTileOverlay != null) {
+            if (!onlineTileOverlay.isNull("maxLevel")) {
+                maxLevel = onlineTileOverlay.getInt("maxLevel");
+            }
+            if (!onlineTileOverlay.isNull("minLevel")) {
+                minLevel = onlineTileOverlay.getInt("minLevel");
+            }
+            if (!onlineTileOverlay.isNull("tileTmp")) {
+                tileTmp = onlineTileOverlay.getInt("tileTmp");
+            }
+            if (!onlineTileOverlay.isNull("onlineUrl")) {
+                onlineUrl = onlineTileOverlay.getString("onlineUrl");
+            }
+        }
+
+        /**
+         * 定义瓦片图的在线Provider，并实现相关接口
+         * MAX_LEVEL、MIN_LEVEL 表示地图显示瓦片图的最大、最小级别
+         * urlString 表示在线瓦片图的URL地址
+         */
+        TileProvider tileProvider = new UrlTileProvider() {
+            @Override
+            public int getMaxDisLevel() {
+                return maxLevel;
+            }
+            @Override
+            public int getMinDisLevel() {
+                return minLevel;
+            }
+            @Override
+            public String getTileUrl() {
+                return onlineUrl;
+            }
+        };
+
+        TileOverlayOptions localTileOverlayOptions = new TileOverlayOptions();
+        localTileOverlayOptions.tileProvider(tileProvider).setMaxTileTmp(tileTmp);
+        mapView.getMap().addTileLayer(localTileOverlayOptions);
+    }
 
 }

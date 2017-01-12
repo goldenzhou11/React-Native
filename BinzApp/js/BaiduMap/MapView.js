@@ -11,8 +11,8 @@ import React, {
   PropTypes
 } from 'react';
 
-// 导入常量设定 - MapTypes
-import MapTypes from './MapTypes';
+// 导入常量设定 - MapConfig
+import MapConfig from './MapConfig';
 
 export default class MapView extends Component {
   /**
@@ -23,20 +23,27 @@ export default class MapView extends Component {
     mapType: PropTypes.number,
     zoom: PropTypes.number,
     center: PropTypes.object,
-    maxAndMinZoom: PropTypes.array
+    maxAndMinZoom: PropTypes.array,
+    onlineTileOverlay: PropTypes.object
   };
 
   /**
   * 初始化参数
   */
   static defaultProps = {
-    mapType: MapTypes.NORMAL,
-    zoom: 15,
+    mapType: MapConfig.MAPTYPE_OTHERS,
+    zoom: MapConfig.MAP_INIT_ZOOM,
     center: {
-              'longitude': 121.667917,
-              'latitude': 31.149712
+              'longitude': MapConfig.MAP_CENTER_LON,
+              'latitude': MapConfig.MAP_CENTER_LAT
             },
-    maxAndMinZoom: [14, 21]
+    maxAndMinZoom: [MapConfig.MAP_MIN_ZOOM, MapConfig.MAP_MAX_ZOOM],
+    onlineTileOverlay: {
+      'maxLevel': MapConfig.MAP_TILE_MAX_ZOOM,
+      'minLevel': MapConfig.MAP_TILE_MIN_ZOOM,
+      'tileTmp': MapConfig.MAP_TILE_TMP,
+      'onlineUrl': MapConfig.MAP_TILE_ONLINE_URL
+    }
   }
 
   constructor() {
