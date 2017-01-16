@@ -1,16 +1,23 @@
 package com.binzapp.baiduMap;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 
 import com.baidu.mapapi.SDKInitializer;
+import com.baidu.mapapi.map.BitmapDescriptor;
+import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.map.MarkerOptions;
+import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.map.TileOverlayOptions;
 import com.baidu.mapapi.map.TileProvider;
 import com.baidu.mapapi.map.UrlTileProvider;
 import com.baidu.mapapi.model.LatLng;
+import com.binzapp.R;
+import com.binzapp.baiduMap.Utils.BitmapUtil;
 import com.binzapp.baiduMap.config.DefaultConfig;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
@@ -30,8 +37,7 @@ public class BaiduMapViewManager extends ViewGroupManager<MapView> {
     private int tileTmp = DefaultConfig.DEF_TILE_TMP;
     private int maxLevel = (int) DefaultConfig.DEF_MAX_ZOOM;
     private int minLevel = (int) DefaultConfig.DEF_MIN_ZOOM;
-    private String onlineUrl = "http://api0.map.bdimg.com/customimage/tile"
-            + "?&x={x}&y={y}&z={z}&udt=20150601&customid=light";
+    private String onlineUrl = "";
 
     public String getName() {
         return REACT_CLASS;
@@ -44,6 +50,7 @@ public class BaiduMapViewManager extends ViewGroupManager<MapView> {
     public MapView createViewInstance(ThemedReactContext context) {
         mReactContext = context;
         MapView mapView = new MapView(context);
+        this.setCusMarkers(mapView);
         return mapView;
     }
 
@@ -164,6 +171,18 @@ public class BaiduMapViewManager extends ViewGroupManager<MapView> {
         TileOverlayOptions localTileOverlayOptions = new TileOverlayOptions();
         localTileOverlayOptions.tileProvider(tileProvider).setMaxTileTmp(tileTmp);
         mapView.getMap().addTileLayer(localTileOverlayOptions);
+    }
+
+
+    private void setCusMarkers(MapView mapView){
+        LatLng position = new LatLng(31.149846D, 121.666147D);
+        Bitmap src = BitmapDescriptorFactory.fromResource(R.mipmap.bkg_facility_pin).getBitmap();
+        Bitmap inbm = BitmapDescriptorFactory.fromResource(R.mipmap.ic_fac_attractions_dkb).getBitmap();
+        BitmapDescriptor newBm = BitmapDescriptorFactory.fromBitmap(BitmapUtil.drawIntoBitmap(src,inbm));
+        OverlayOptions overlayOptions = new MarkerOptions()
+                .icon(newBm)
+                .position(position);
+        mapView.getMap().addOverlay(overlayOptions);
     }
 
 }
