@@ -1,7 +1,11 @@
 package com.binzapp.baiduMap.Utils;
 
+import com.baidu.mapapi.map.BitmapDescriptor;
+import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.map.Marker;
+import com.baidu.mapapi.map.MarkerOptions;
+import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
-import com.facebook.react.bridge.ReadableMap;
 
 /**
  * Created by binz on 2017/1/16.
@@ -9,16 +13,13 @@ import com.facebook.react.bridge.ReadableMap;
 
 public class MarkerUtil {
 
+    public static Marker addMarker(MapView mapView, double mLat, double mLng, BitmapDescriptor bitmap) {
+        LatLng position = new LatLng(mLat, mLng);
+        OverlayOptions overlayOptions = new MarkerOptions()
+                .icon(bitmap)
+                .position(position);
 
-    /**
-     * 获取经纬度点
-     * @param option
-     * @return
-     */
-    private static LatLng getLatLngFromOption(ReadableMap option) {
-        double latitude = option.getDouble("latitude");
-        double longitude = option.getDouble("longitude");
-        return new LatLng(latitude, longitude);
-
+        Marker marker = (Marker)mapView.getMap().addOverlay(overlayOptions);
+        return marker;
     }
 }

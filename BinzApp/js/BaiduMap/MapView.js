@@ -24,7 +24,8 @@ export default class MapView extends Component {
     zoom: PropTypes.number,
     center: PropTypes.object,
     maxAndMinZoom: PropTypes.array,
-    onlineTileOverlay: PropTypes.object
+    onlineTileOverlay: PropTypes.object,
+    initMarkers: PropTypes.array
   };
 
   /**
@@ -43,7 +44,15 @@ export default class MapView extends Component {
       'minLevel': MapConfig.MAP_TILE_MIN_ZOOM,
       'tileTmp': MapConfig.MAP_TILE_TMP,
       'onlineUrl': MapConfig.MAP_TILE_ONLINE_URL
-    }
+    },
+    initMarkers: [
+      {
+        'markerType': 'entertainm',
+        'mLat': MapConfig.MAP_CENTER_LAT,
+        'mLng': MapConfig.MAP_CENTER_LON
+      }
+    ]
+
   }
 
   constructor() {

@@ -22,4 +22,19 @@ public class DefaultConfig {
     // 设置瓦片图的在线缓存大小，默认为20 M
     public static final int DEF_TILE_TMP = 52428800;
 
+    // Marker类型
+    public static final String DEF_MARKER_TYPE_ATTRACTIONS = "attractions";
+    public static final String DEF_MARKER_TYPE_ENTERTAINM = "entertainm";
+    public static final String DEF_MARKER_TYPE_DINING = "dining";
+    public static final String DEF_MARKER_TYPE_SHOPPING = "shopping";
+    public static final String DEF_MARKER_TYPE_RESTROOMS = "restrooms";
+    public static final String DEF_MARKER_TYPE_PHOTOPASS = "photopass";
+    public static final String DEF_MARKER_TYPE_TOURS = "tours";
+    public static final String DEF_MARKER_TYPE_GUESTSERVICES = "guestservices";
+    public static final String DEF_MARKER_TYPE_RESORTS = "resorts";
+    public static final String DEF_MARKER_TYPE_RECREATION = "recreation";
+
+
+
+
 }

@@ -18,6 +18,18 @@ export default {
   MAP_TILE_MAX_ZOOM: 21,
   MAP_TILE_MIN_ZOOM: 3,
   MAP_TILE_TMP: 52428800,
-  MAP_TILE_ONLINE_URL: 'https://secure.cdn1.wdpromedia.cn/media/maps/prod/shdr-baidu-mob/10/{z}/{x}/{y}.jpg'
+  MAP_TILE_ONLINE_URL: 'https://secure.cdn1.wdpromedia.cn/media/maps/prod/shdr-baidu-mob/10/{z}/{x}/{y}.jpg',
+
+  // Marker类型
+  MARKER_TYPE_ATTRACTIONS: 'attractions',
+  MARKER_TYPE_ENTERTAINM: 'entertainm',
+  MARKER_TYPE_DINING: 'dining',
+  MARKER_TYPE_SHOPPING: 'shopping',
+  MARKER_TYPE_RESTROOMS: 'restrooms',
+  MARKER_TYPE_PHOTOPASS: 'photopass',
+  MARKER_TYPE_TOURS: 'tours',
+  MARKER_TYPE_GUESTSERVICES: 'guestservices',
+  MARKER_TYPE_RESORTS: 'resorts',
+  MARKER_TYPE_RECREATION: 'recreation'
 
 };

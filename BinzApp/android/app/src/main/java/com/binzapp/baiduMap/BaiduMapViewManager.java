@@ -1,23 +1,19 @@
 package com.binzapp.baiduMap;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 
 import com.baidu.mapapi.SDKInitializer;
 import com.baidu.mapapi.map.BitmapDescriptor;
-import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
-import com.baidu.mapapi.map.MarkerOptions;
-import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.map.TileOverlayOptions;
 import com.baidu.mapapi.map.TileProvider;
 import com.baidu.mapapi.map.UrlTileProvider;
 import com.baidu.mapapi.model.LatLng;
-import com.binzapp.R;
-import com.binzapp.baiduMap.Utils.BitmapUtil;
+import com.binzapp.baiduMap.BitmapDescriptor.MarkerDescriptor;
+import com.binzapp.baiduMap.Utils.MarkerUtil;
 import com.binzapp.baiduMap.config.DefaultConfig;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
@@ -34,6 +30,7 @@ public class BaiduMapViewManager extends ViewGroupManager<MapView> {
     private static final String REACT_CLASS = "RCTBaiduMapView";
     private ThemedReactContext mReactContext;
     private ReadableArray childrenPoints;
+    /** 瓦片图层默认参数设定 */
     private int tileTmp = DefaultConfig.DEF_TILE_TMP;
     private int maxLevel = (int) DefaultConfig.DEF_MAX_ZOOM;
     private int minLevel = (int) DefaultConfig.DEF_MIN_ZOOM;
@@ -50,7 +47,6 @@ public class BaiduMapViewManager extends ViewGroupManager<MapView> {
     public MapView createViewInstance(ThemedReactContext context) {
         mReactContext = context;
         MapView mapView = new MapView(context);
-        this.setCusMarkers(mapView);
         return mapView;
     }
 
@@ -173,16 +169,56 @@ public class BaiduMapViewManager extends ViewGroupManager<MapView> {
         mapView.getMap().addTileLayer(localTileOverlayOptions);
     }
 
+    /**
+     * 初始化自定义覆盖物
+     * @param mapView
+     * @param markerOptions
+     */
+    @ReactProp(name = "initMarkers")
+    public void initMarkers(MapView mapView, ReadableArray markerOptions) {
+        if (markerOptions != null && markerOptions.size() != 0) {
+            for (int i = 0; i < markerOptions.size(); i++) {
+                ReadableMap markerOption = markerOptions.getMap(i);
+                String markerType = markerOption.getString("markerType");
+                double mLat = markerOption.getDouble("mLat");
+                double mLng = markerOption.getDouble("mLng");
+                BitmapDescriptor md = null;
+                if (DefaultConfig.DEF_MARKER_TYPE_ATTRACTIONS.equals(markerType)) {
+                    md = MarkerDescriptor.getAttractionsDescriptor();
+                }
+                else if (DefaultConfig.DEF_MARKER_TYPE_DINING.equals(markerType)) {
+                    md = MarkerDescriptor.getDiningDescriptor();
+                }
+                else if (DefaultConfig.DEF_MARKER_TYPE_ENTERTAINM.equals(markerType)) {
+                    md = MarkerDescriptor.getEntertainmDescriptor();
+                }
+                else if (DefaultConfig.DEF_MARKER_TYPE_GUESTSERVICES.equals(markerType)) {
+                    md = MarkerDescriptor.getGuestservicesDescriptor();
+                }
+                else if (DefaultConfig.DEF_MARKER_TYPE_PHOTOPASS.equals(markerType)) {
+                    md = MarkerDescriptor.getPhotopassDescriptor();
+                }
+                else if (DefaultConfig.DEF_MARKER_TYPE_RECREATION.equals(markerType)) {
+                    md = MarkerDescriptor.getRecreationDescriptor();
+                }
+                else if (DefaultConfig.DEF_MARKER_TYPE_RESORTS.equals(markerType)) {
+                    md = MarkerDescriptor.getResortsDescriptor();
+                }
+                else if (DefaultConfig.DEF_MARKER_TYPE_RESTROOMS.equals(markerType)) {
+                    md = MarkerDescriptor.getRestroomsDescriptor();
+                }
+                else if (DefaultConfig.DEF_MARKER_TYPE_SHOPPING.equals(markerType)) {
+                    md = MarkerDescriptor.getShoppingDescriptor();
+                }
+                else if (DefaultConfig.DEF_MARKER_TYPE_TOURS.equals(markerType)) {
+                    md = MarkerDescriptor.getToursDescriptor();
+                } else {
+                    continue;
+                }
+                MarkerUtil.addMarker(mapView, mLat, mLng, md);
+            }
 
-    private void setCusMarkers(MapView mapView){
-        LatLng position = new LatLng(31.149846D, 121.666147D);
-        Bitmap src = BitmapDescriptorFactory.fromResource(R.mipmap.bkg_facility_pin).getBitmap();
-        Bitmap inbm = BitmapDescriptorFactory.fromResource(R.mipmap.ic_fac_attractions_dkb).getBitmap();
-        BitmapDescriptor newBm = BitmapDescriptorFactory.fromBitmap(BitmapUtil.drawIntoBitmap(src,inbm));
-        OverlayOptions overlayOptions = new MarkerOptions()
-                .icon(newBm)
-                .position(position);
-        mapView.getMap().addOverlay(overlayOptions);
+        }
     }
 
 }
