@@ -13,6 +13,8 @@ import React, {
 
 // 导入常量设定 - MapConfig
 import MapConfig from './MapConfig';
+let SQLite = require('react-native-sqlite-storage');
+//SQLite.openDatabase({name : "testDB", createFromLocation : 1}, okCallback,errorCallback);
 
 export default class MapView extends Component {
   /**

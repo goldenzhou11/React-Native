@@ -145,6 +145,8 @@ dependencies {
     compile files('src/libs/baidumapapi_radar_v4_2_0.jar')
     compile files('src/libs/baidumapapi_search_v4_2_0.jar')
     compile files('src/libs/baidumapapi_util_v4_2_0.jar')
+    // react-native-sqlite
+    compile project(':react-native-sqlite-storage')
 }
 
 // Run this once to be able to run the application with BUCK
