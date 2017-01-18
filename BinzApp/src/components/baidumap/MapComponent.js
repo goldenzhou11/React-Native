@@ -11,12 +11,18 @@ import React, {
   PropTypes
 } from 'react';
 
-// 导入常量设定 - MapConfig
-import MapConfig from './MapConfig';
-let SQLite = require('react-native-sqlite-storage');
-//SQLite.openDatabase({name : "testDB", createFromLocation : 1}, okCallback,errorCallback);
 
-export default class MapView extends Component {
+// 导入 - MapConfig
+import MapConfig from '../../config/MapConfig.js';
+// 导入 - DataSQLite
+let DataSQLite = require('../../db/DataSQLite.js');
+var testArr = DataSQLite.getMarkersInfo(MapConfig.MARKER_TYPE_ATTRACTIONS);
+console.log(testArr[0]);
+export default class MapComponent extends Component {
+  constructor() {
+    super();
+  }
+
   /**
   * 定义参数propTypes - 名字:类型
   */
@@ -47,18 +53,8 @@ export default class MapView extends Component {
       'tileTmp': MapConfig.MAP_TILE_TMP,
       'onlineUrl': MapConfig.MAP_TILE_ONLINE_URL
     },
-    initMarkers: [
-      {
-        'markerType': 'entertainm',
-        'mLat': MapConfig.MAP_CENTER_LAT,
-        'mLng': MapConfig.MAP_CENTER_LON
-      }
-    ]
+    initMarkers: DataSQLite.getMarkersInfo(MapConfig.MARKER_TYPE_ATTRACTIONS)
 
-  }
-
-  constructor() {
-    super();
   }
 
   render() {
@@ -67,4 +63,5 @@ export default class MapView extends Component {
   }
 }
 
-const BaiduMapView = requireNativeComponent('RCTBaiduMapView', MapView);
+// NativeModules-BaiduMap
+const BaiduMapView = requireNativeComponent('RCTBaiduMapView', MapComponent);

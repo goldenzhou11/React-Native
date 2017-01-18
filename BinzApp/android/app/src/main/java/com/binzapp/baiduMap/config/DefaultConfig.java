@@ -23,16 +23,16 @@ public class DefaultConfig {
     public static final int DEF_TILE_TMP = 52428800;
 
     // Marker类型
-    public static final String DEF_MARKER_TYPE_ATTRACTIONS = "attractions";
-    public static final String DEF_MARKER_TYPE_ENTERTAINM = "entertainm";
-    public static final String DEF_MARKER_TYPE_DINING = "dining";
-    public static final String DEF_MARKER_TYPE_SHOPPING = "shopping";
-    public static final String DEF_MARKER_TYPE_RESTROOMS = "restrooms";
-    public static final String DEF_MARKER_TYPE_PHOTOPASS = "photopass";
-    public static final String DEF_MARKER_TYPE_TOURS = "tours";
-    public static final String DEF_MARKER_TYPE_GUESTSERVICES = "guestservices";
-    public static final String DEF_MARKER_TYPE_RESORTS = "resorts";
-    public static final String DEF_MARKER_TYPE_RECREATION = "recreation";
+    public static final String DEF_MARKER_TYPE_ATTRACTIONS = "Attraction";
+    public static final String DEF_MARKER_TYPE_ENTERTAINM = "Entertainment";
+    public static final String DEF_MARKER_TYPE_DINING = "restaurant";
+    public static final String DEF_MARKER_TYPE_SHOPPING = "MerchandiseFacility";
+    public static final String DEF_MARKER_TYPE_RESTROOMS = "Restroom";
+    public static final String DEF_MARKER_TYPE_PHOTOPASS = "PhotoPass";
+    public static final String DEF_MARKER_TYPE_TOURS = "tour";
+    public static final String DEF_MARKER_TYPE_GUESTSERVICES = "guest-service";
+    public static final String DEF_MARKER_TYPE_RESORTS = "resort";
+    public static final String DEF_MARKER_TYPE_RECREATION = "Recreation";
 
 
 

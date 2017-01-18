@@ -21,15 +21,15 @@ export default {
   MAP_TILE_ONLINE_URL: 'https://secure.cdn1.wdpromedia.cn/media/maps/prod/shdr-baidu-mob/10/{z}/{x}/{y}.jpg',
 
   // Marker类型
-  MARKER_TYPE_ATTRACTIONS: 'attractions',
-  MARKER_TYPE_ENTERTAINM: 'entertainm',
-  MARKER_TYPE_DINING: 'dining',
-  MARKER_TYPE_SHOPPING: 'shopping',
-  MARKER_TYPE_RESTROOMS: 'restrooms',
-  MARKER_TYPE_PHOTOPASS: 'photopass',
-  MARKER_TYPE_TOURS: 'tours',
-  MARKER_TYPE_GUESTSERVICES: 'guestservices',
-  MARKER_TYPE_RESORTS: 'resorts',
-  MARKER_TYPE_RECREATION: 'recreation'
+  MARKER_TYPE_ATTRACTIONS: 'Attraction',
+  MARKER_TYPE_ENTERTAINM: 'Entertainment',
+  MARKER_TYPE_DINING: 'restaurant',
+  MARKER_TYPE_SHOPPING: 'MerchandiseFacility',
+  MARKER_TYPE_RESTROOMS: 'Restroom',
+  MARKER_TYPE_PHOTOPASS: 'PhotoPass',
+  MARKER_TYPE_TOURS: 'tour',
+  MARKER_TYPE_GUESTSERVICES: 'guest-service',
+  MARKER_TYPE_RESORTS: 'resort',
+  MARKER_TYPE_RECREATION: 'Recreation'
 
 };

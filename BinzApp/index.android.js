@@ -12,7 +12,7 @@ import React, {
   Component
 } from 'react';
 
-import MapView from './js/BaiduMap/MapView';
+import MapView from './src/components/baidumap/MapComponent';
 import Dimensions from 'Dimensions';
 
 export default class BinzApp extends Component {
