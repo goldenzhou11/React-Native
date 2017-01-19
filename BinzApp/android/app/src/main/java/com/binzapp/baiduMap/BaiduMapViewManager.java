@@ -15,11 +15,15 @@ import com.baidu.mapapi.model.LatLng;
 import com.binzapp.baiduMap.BitmapDescriptor.MarkerDescriptor;
 import com.binzapp.baiduMap.Utils.MarkerUtil;
 import com.binzapp.baiduMap.config.DefaultConfig;
+import com.binzapp.sqlite.MapDatas;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.uimanager.ThemedReactContext;
 import com.facebook.react.uimanager.ViewGroupManager;
 import com.facebook.react.uimanager.annotations.ReactProp;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by binz on 2017/1/4.
@@ -171,11 +175,12 @@ public class BaiduMapViewManager extends ViewGroupManager<MapView> {
 
     /**
      * 初始化自定义覆盖物
+     * @param mReactContext
      * @param mapView
      * @param markerOptions
      */
     @ReactProp(name = "initMarkers")
-    public void initMarkers(MapView mapView, ReadableArray markerOptions) {
+    public static void initMarkers(MapView mapView, ReadableArray markerOptions) {
         if (markerOptions != null && markerOptions.size() != 0) {
             for (int i = 0; i < markerOptions.size(); i++) {
                 ReadableMap markerOption = markerOptions.getMap(i);
@@ -218,6 +223,18 @@ public class BaiduMapViewManager extends ViewGroupManager<MapView> {
                 MarkerUtil.addMarker(mapView, mLat, mLng, md);
             }
 
+        }
+        // 初始化地图标注点的Native实现方式如下
+        else {
+//            MapDatas md = new MapDatas(mapView.getContext());
+//            List<Map<String, Object>> markers = md.getInitMarkers(DefaultConfig.DEF_MARKER_TYPE_ATTRACTIONS);
+//            md.closeDB();
+//            BitmapDescriptor attractions_md = MarkerDescriptor.getAttractionsDescriptor();
+//            for (int i = 0; i < markers.size(); i++) {
+//                double mLat = (double) markers.get(i).get("mLat");
+//                double mLng = (double) markers.get(i).get("mLng");
+//                MarkerUtil.addMarker(mapView, mLat, mLng, attractions_md);
+//            }
         }
     }
 

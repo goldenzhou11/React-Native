@@ -1,38 +1,44 @@
-'use strict';
+import React, {
+  Component,
+  PropTypes
+} from 'react';
 
-// SQLite组件
-let SQLite = require('react-native-sqlite-storage');
-// DB对象
-let db = SQLite.openDatabase(
-  {
-    name: 'facilities.db',
-    createFromLocation : "~facilities.db",
-    location: 'Library'
-  },
-  () => {console.log("Database OPENED");},
-  err => {console.log("SQL Error: " + err);});
+let SQLite = require('react-native-sqlite-storage')
 
-// 检索DB-SQL
-export function getMarkersInfo(mkType) {
-  let sqlStr = `SELECT type, primary_location_lat, primary_location_lng FROM facilities where type = "${mkType}" or sub_type = "${mkType}"`;
+export default class DataSQLite extends Component {
 
-  db.transaction((tx) => {
-      tx.executeSql(sqlStr, [], (tx, results) => {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      record: null
+    }
+    console.log("DataSQLite Start");
+    let db = SQLite.openDatabase({name: 'facilities.db', createFromLocation : "~facilities.db", location: 'Library'}, this.openCB, this.errorCB);
+    db.transaction((tx) => {
+      tx.executeSql('SELECT type, primary_location_lat, primary_location_lng FROM facilities where type = "Attraction" or sub_type = "Attraction"', [], (tx, results) => {
           console.log("Query completed");
 
-          var len = results.rows.length;
-          var mkArr = new Array(len);
-          for (let i = 0; i < len; i++) {
-            let row = results.rows.item(i);
-            let mkObj = {
-                'markerType': row.type,
-                'mLat': row.primary_location_lat,
-                'mLng': row.primary_location_lng
-            }
-            mkArr[i] = mkObj;
-          }
-          console.log(mkArr[0]);
-          return mkArr;
+          // Get rows with Web SQL Database spec compliance.
+          this.setState({record: results.rows.raw()});
         });
     });
+
+  }
+
+  errorCB(err) {
+    console.log("SQL Error: " + err);
+  }
+
+  successCB() {
+    console.log("SQL executed fine");
+  }
+
+  openCB() {
+    console.log("Database OPENED");
+  }
+
+  render() {
+    return this.state.record;
+  }
 }

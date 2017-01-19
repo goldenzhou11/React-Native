@@ -6,8 +6,8 @@ export default {
   MAPTYPE_OTHERS: 3,
 
   // CENTER坐标
-  MAP_CENTER_LON: 121.667917,
-  MAP_CENTER_LAT: 31.149712,
+  MAP_CENTER_LON: 121.666110,
+  MAP_CENTER_LAT: 31.150011,
 
   // 最大,最小缩放等级,初始缩放等级
   MAP_MAX_ZOOM: 21,
