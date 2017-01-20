@@ -25,6 +25,8 @@ export default class BinzApp extends Component {
     return (
       <View>
         <BaiduMapView />
+        <View style={{height:100,position:'absolute'}}><Text>123123123123</Text></View>
+        <View style={{backgroundColor:'#fefefe', width:50, height:50, borderRadius: 25, position:'absolute'}}></View>
       </View>
     );
   }
